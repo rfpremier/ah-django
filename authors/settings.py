@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_extensions',
     'rest_framework',
+    'djoser',
 
     'authors.apps.authentication',
     'authors.apps.core',
@@ -165,6 +166,17 @@ REST_FRAMEWORK = {
     ),
 }
 
+
+FROM_EMAIL = 'misochobrian@gmail.com'
+
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': ('{protocol}//:{domain}/'
+                                   'api/users/password-reset-confirm/'
+                                   '?uid={uid}&token={token}'),
+    'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
+}
+
 django_heroku.settings(locals())
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
@@ -181,3 +193,4 @@ SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_SECRET']
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ['GOOGLE_OAUTH2_KEY']
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ['GOOGLE_OAUTH2_SECRET']
+
