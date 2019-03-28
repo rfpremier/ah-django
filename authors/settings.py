@@ -88,7 +88,9 @@ AUTHENTICATION_BACKENDS = (
 
     'django.contrib.auth.backends.ModelBackend',
 )
-
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.user.user_details',
+)
 
 WSGI_APPLICATION = 'authors.wsgi.application'
 
