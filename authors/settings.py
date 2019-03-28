@@ -149,3 +149,12 @@ REST_FRAMEWORK = {
 }
 
 django_heroku.settings(locals())
+
+# Sendgrid settings
+SEND_GRID_API_KEY = os.environ['SENDGRID_KEY']
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = os.environ['HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['HOST_PASSWORD']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
