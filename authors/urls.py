@@ -19,14 +19,6 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
     url(r'^api/', include('authors.apps.authentication.urls')),
-
-    # url(r'^$', core_views.home, name='home'),
-
-    url(r'^login/$', auth_views.LoginView, name='login'),
-    url(r'^logout/$', auth_views.LogoutView, name='logout'),
-    url(r'^oauth/', include('social_django.urls', namespace='social')), 
-    url(r'^admin/', admin.site.urls),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
 ]
-
