@@ -39,6 +39,7 @@ class RegistrationAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
+        # Set all variables to be used with send_email function
         subject = "Welcome to Authors Haven"
         contact_message = "To {},".format(serializer.data.get('username')) +\
             "\n Thank you for joining Authors Haven. " +\
