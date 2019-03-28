@@ -166,7 +166,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-
 FROM_EMAIL = 'misochobrian@gmail.com'
 
 DJOSER = {
@@ -193,4 +192,13 @@ SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_SECRET']
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ['GOOGLE_OAUTH2_KEY']
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ['GOOGLE_OAUTH2_SECRET']
+
+# Sendgrid settings
+SEND_GRID_API_KEY = os.environ['SENDGRID_KEY']
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = os.environ['HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['HOST_PASSWORD']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
