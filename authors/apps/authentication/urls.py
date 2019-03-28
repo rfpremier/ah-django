@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^users/?$', RegistrationAPIView.as_view()),
     url(r'^users/list/?$', UserListApiView.as_view()),
     url(r'^users/login/?$', LoginAPIView.as_view()),
+
 ]
