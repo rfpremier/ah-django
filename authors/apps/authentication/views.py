@@ -2,6 +2,7 @@ from .backends import JWTAuthentication as auth
 
 
 from rest_framework import generics, status
+from django.core.mail import send_mail
 from rest_framework.generics import RetrieveUpdateAPIView
 
 from rest_framework import status
@@ -39,6 +40,19 @@ class RegistrationAPIView(APIView):
         serializer = self.serializer_class(data=user)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        subject = "Welcome to Authors Haven"
+        contact_message = "To {},".format(serializer.data.get('username')) +\
+            "\n Thank you for joining Authors Haven. " +\
+            "We are glad to have you on board. " +\
+            "Please use the link http://127.0.0.1:8000/api/users/login/" +\
+            " to sign in to your new account"
+
+        from_email = 'no-reply@authorshaven.com'
+        to_email = [serializer.data.get('email')]
+
+        send_mail(subject, contact_message, from_email, to_email,
+                  fail_silently=True)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
