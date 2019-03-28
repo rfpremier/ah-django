@@ -1,9 +1,7 @@
 from .backends import JWTAuthentication as auth
 
-
 from rest_framework import generics, status
 from django.core.mail import send_mail
-from rest_framework.generics import RetrieveUpdateAPIView
 
 from rest_framework import status
 from rest_framework.generics import RetrieveUpdateAPIView, ListAPIView
