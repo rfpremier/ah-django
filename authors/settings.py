@@ -74,7 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends', 
+                'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
         },
@@ -86,7 +86,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
-    
+
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -164,3 +164,18 @@ REST_FRAMEWORK = {
 }
 
 django_heroku.settings(locals())
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+# twitter secret keys
+SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_KEY']
+SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_SECRET']
+
+# facebook secret keys
+SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_KEY']
+SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_SECRET']
+
+# google secret keys
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ['GOOGLE_OAUTH2_KEY']
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ['GOOGLE_OAUTH2_SECRET']
