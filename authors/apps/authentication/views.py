@@ -29,10 +29,22 @@ class RegistrationAPIView(APIView):
 
         # Set all variables to be used with send_email function
         subject = "Welcome to Authors Haven"
+
+        # Checks if connections uses https or http
+        if request.is_secure():
+            protocol = 'https://'
+        else:
+            protocol = 'http://'
+
+        # Get host name and append url to login
+        link = request.get_host() + "/api/users/login"
+
+        full_link = protocol+link
+
         contact_message = "To {},".format(serializer.data.get('username')) +\
             "\n Thank you for joining Authors Haven. " +\
             "We are glad to have you on board. " +\
-            "Please use the link http://127.0.0.1:8000/api/users/login/" +\
+            "Please use the link {}".format(full_link) +\
             " to sign in to your new account"
 
         from_email = 'no-reply@authorshaven.com'
