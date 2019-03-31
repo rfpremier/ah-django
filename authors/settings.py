@@ -91,8 +91,46 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
 )
+
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+# twitter secret keys
+SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_KEY']
+SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_SECRET']
+SOCIAL_AUTH_TWITTER_SCOPE = ['email']
+
+# facebook secret keys
+SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_KEY']
+SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_SECRET']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    "fields": "id, email, name"
+}
+
+# google secret keys
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ['GOOGLE_OAUTH2_KEY']
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ['GOOGLE_OAUTH2_SECRET']
+SOCIAL_AUTH_GOOGLE_SCOPE = ['email', 'username', 'password']
+
+# Sendgrid settings
+SEND_GRID_API_KEY = os.environ['SENDGRID_KEY']
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = os.environ['HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['HOST_PASSWORD']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 
 WSGI_APPLICATION = 'authors.wsgi.application'
 
@@ -177,28 +215,3 @@ DJOSER = {
 }
 
 django_heroku.settings(locals())
-
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
-# twitter secret keys
-SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_KEY']
-SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_SECRET']
-
-# facebook secret keys
-SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_KEY']
-SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_SECRET']
-
-# google secret keys
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ['GOOGLE_OAUTH2_KEY']
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ['GOOGLE_OAUTH2_SECRET']
-
-# Sendgrid settings
-SEND_GRID_API_KEY = os.environ['SENDGRID_KEY']
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = os.environ['HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['HOST_PASSWORD']
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
