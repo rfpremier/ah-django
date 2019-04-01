@@ -23,12 +23,16 @@ class Migration(migrations.Migration):
                 ('description', models.TextField()),
                 ('body', models.TextField()),
                 ('image_url', models.TextField()),
+<<<<<<< HEAD
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('slug', models.SlugField(max_length=200, unique=True)),
+=======
+>>>>>>> * 164857218-feature(article):
                 ('created_at', models.DateField(auto_now_add=True)),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
+<<<<<<< HEAD
         migrations.CreateModel(
             name='Rating',
             fields=[
@@ -38,4 +42,6 @@ class Migration(migrations.Migration):
                 ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
+=======
+>>>>>>> * 164857218-feature(article):
     ]
