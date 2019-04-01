@@ -21,6 +21,9 @@ class SocialAuthTest(APITestCase):
             "provider": "invalid-provider",
             "access_token": "@#JOEJO@()#)!(JKJEWQKL@#",
         }
+        self.missing_token = {
+            "provider": "twitter",
+        }
 
         self.twitter_data = {
             "provider": "twitter",
@@ -37,9 +40,16 @@ class SocialAuthTest(APITestCase):
             "access_token": os.getenv('GOOGLE_ACCESS_TOKEN'),
         }
 
-    def test_invalid_token(self):
+    # def test_invalid_token(self):
+    #     """Test response when token is invalid"""
+    #     data = self.invalid_token
+    #     url = self.social_auth_url
+    #     response = self.client.post(url, data, format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_token_missing(self):
         """Test response when token is invalid"""
-        data = self.invalid_token
+        data = self.missing_token
         url = self.social_auth_url
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
