@@ -232,7 +232,6 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, name, email'
 }
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
