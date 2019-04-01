@@ -8,10 +8,12 @@
     Authorization: token yourtokenhere
 """
 import jwt
+from datetime import datetime
 from django.conf import settings
 from rest_framework import authentication
 from rest_framework.exceptions import AuthenticationFailed
 from .models import User
+from rest_framework_jwt.settings import api_settings
 
 
 class JWTAuthentication(authentication.BaseAuthentication):
@@ -61,3 +63,36 @@ class JWTAuthentication(authentication.BaseAuthentication):
         except jwt.ExpiredSignature:
             return False
         return True
+
+
+class JWTokens(object):
+    """
+    Handle token generation
+
+    """
+
+    def create_token(self, user):
+        """
+        Create and return the user's JWT token
+
+        """
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+        payload = jwt_payload_handler(user)
+
+        token = jwt_encode_handler(payload)
+
+        return token
+
+    def encode_token(self, user):
+        """
+        This method gerate token by encoding registered user
+        email address
+        """
+        secret_key = settings.SECRET_KEY
+        payload = {
+            'id': user,
+            'iat': datetime.utcnow()
+        }
+        return jwt.encode(payload, secret_key).decode('UTF-8')
