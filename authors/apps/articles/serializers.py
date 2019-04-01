@@ -1,11 +1,10 @@
+from .models import Articles
 from rest_framework import serializers
 from .models import Articles, Rating, Likes
 from django.db.models import Avg
 
 
 class ArticlesSerializer(serializers.ModelSerializer):
-    rating_count = serializers.SerializerMethodField(read_only=True, default=0)
-    avg_rating = serializers.SerializerMethodField(read_only=True, default=0)
 
     class Meta:
         model = Articles
@@ -47,6 +46,8 @@ class RatingSerializer(serializers.ModelSerializer):
             'article_id',
             'user_id',
             'rating'
+            'created_at'
+
         ]
 
 class LikesSerializer(serializers.ModelSerializer):

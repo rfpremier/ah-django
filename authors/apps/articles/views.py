@@ -1,3 +1,6 @@
+from rest_framework.mixins import CreateModelMixin
+from ..authentication.models import User
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.generics import (CreateAPIView,
                                      ListAPIView, RetrieveUpdateDestroyAPIView)
 from rest_framework.response import Response
