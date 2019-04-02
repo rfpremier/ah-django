@@ -323,10 +323,9 @@ class SocialAuthView(generics.GenericAPIView):
 
         if authenticated_user and authenticated_user.is_active:
             # Check if the user you intend to authenticate is active
-            token = JWTokens.create_token(self, authenticated_user)
             response = {"email": authenticated_user.email,
                         "username": authenticated_user.username,
-                        "token": token}
+                        "token": authenticated_user.token}
 
             return Response(status=status.HTTP_200_OK, data=response)
         else:
