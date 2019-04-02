@@ -72,6 +72,7 @@ class SocialAuthTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('token', data["user"])
         self.assertIn('email', data["user"])
+        self.assertIn('username', data["user"])
 
     def test_invalid_token(self):
         """Test response when token is invalid"""
@@ -81,15 +82,17 @@ class SocialAuthTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_invalid_credentials(self):
-        """Test response when token is invalid"""
+        """Test response when credentials are invalid"""
         data = self.invalid_credentials
         url = self.social_auth_url
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_invalid_http_request(self):
-        """Test response when token is invalid"""
+        """Test response when request is invalid"""
         data = self.invalid_request
         url = self.social_auth_url
         response = self.client.post(url, data, format='json')
+        data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(data["user"]["error"], "Http Error")
