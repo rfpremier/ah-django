@@ -297,12 +297,6 @@ class SocialAuthView(generics.GenericAPIView):
                 "details": str(error)
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        except AuthTokenError as error:
-            return Response({
-                "error": "invalid credentials",
-                "details": str(error)
-            }, status=status.HTTP_400_BAD_REQUEST)
-
         if authenticated_user and authenticated_user.is_active:
             # Check if the user you intend to authenticate is active
             response = {"email": authenticated_user.email,
