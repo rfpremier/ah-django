@@ -1,10 +1,11 @@
 from django.conf.urls import url
+from django.urls import path
 
 from .views import (
-    ArticleView,
+    CreateArticleView, SingleArticleView
 )
 
 urlpatterns = [
-    url(r"^articles/$", ArticleView.as_view(), name="articles"),
-
+    url(r"^articles/$", CreateArticleView.as_view(), name="articles"),
+    path('articles/<int:id>/', SingleArticleView.as_view(), name="single-article")
 ]

@@ -15,3 +15,6 @@ class ArticlesSerializer(serializers.ModelSerializer):
             'author',
             'created_at'
         ]
+
+    def create(self, validated_data):
+        return Articles.objects.create(**validated_data)
