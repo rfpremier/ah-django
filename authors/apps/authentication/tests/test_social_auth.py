@@ -14,7 +14,16 @@ class SocialAuthTest(APITestCase):
         self.social_auth_url = '/api/social_auth'
         self.invalid_token = {
             "provider": "google-oauth2",
-            "access_token": "invalid-token"
+            "access_token": "ya29.GlvfBkc1JwLDKzi1qhMA8qA-hZlwvHVuSQufQY6r5y4pErFbCJv8i59gyG9bJU0ZK0L6fOyJSlIU1RNhGSBw-Kiydq7p_5oTeYDUT4Qe_91dzpcd8f9b2EJ8QEOc"
+        }
+
+        self.invalid_credentials = {
+            "provider": "google-oauth2",
+            "access_token": "ya29.GlssssvfBkc1JwLDKzi1qhMA8qA-hZlwvHVuSQufQY6r5y4pErFbCJv8i59gyG9bJU0ZK0L6fOyJSlIU1RNhGSBw-Kiydq7p_5oTeYDUT4Qe_91dzpcd8f9b2EJ8QEOc"
+        }
+        self.invalid_request = {
+            "provider": "facebook",
+            "access_token": "EAAE3noOlVycBAFgl18soHGHgST5t9en7rJuvrrqugGsOn24WX6QTVwgQ0HOCqeZBNIsH7DVUVN9jm5ROHx7oHKfDba2JUTZBYZChhJIl01OWQhZAoFnKijL1hzSpobZASXXZC7RNxqxOJeW5I7KxilgSwWnztAbbUhZBc8GKjiG6qewZCJlrO5b7GmZBUTyimepcZD"
         }
 
         self.invalid_provider = {
@@ -63,3 +72,24 @@ class SocialAuthTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('token', data["user"])
         self.assertIn('email', data["user"])
+
+    def test_invalid_token(self):
+        """Test response when token is invalid"""
+        data = self.invalid_token
+        url = self.social_auth_url
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_invalid_credentials(self):
+        """Test response when token is invalid"""
+        data = self.invalid_credentials
+        url = self.social_auth_url
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_invalid_http_request(self):
+        """Test response when token is invalid"""
+        data = self.invalid_request
+        url = self.social_auth_url
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
