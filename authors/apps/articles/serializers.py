@@ -48,3 +48,6 @@ class RatingSerializer(serializers.ModelSerializer):
             'user_id',
             'rating'
         ]
+
+    def create(self, validated_data):
+        return Articles.objects.create(**validated_data)
