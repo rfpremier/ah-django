@@ -299,6 +299,12 @@ class SocialAuthView(generics.GenericAPIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         try:
+            # authenticate the current user
+            # social pipeline associate by email handles already associated exception
+            if isinstance(backend, BaseOAuth2):
+                # oauth2 only has access token
+                access_token = serializer.data.get('access_token')
+                user = backend.do_auth(access_token)
 
             authenticated_user = backend.do_auth(access_token, user=user)
 
@@ -317,9 +323,6 @@ class SocialAuthView(generics.GenericAPIView):
 
         if authenticated_user and authenticated_user.is_active:
             # Check if the user you intend to authenticate is active
-            # print(authenticated_user)
-
-            print(authenticated_user)
             token = JWTokens.create_token(self, authenticated_user)
             response = {"email": authenticated_user.email,
                         "username": authenticated_user.username,
