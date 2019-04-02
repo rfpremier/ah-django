@@ -50,6 +50,7 @@ class RatingSerializer(serializers.ModelSerializer):
 
         ]
 
+
 class LikesSerializer(serializers.ModelSerializer):
     like = serializers.IntegerField()
     id = serializers.IntegerField(read_only=True)
@@ -58,3 +59,6 @@ class LikesSerializer(serializers.ModelSerializer):
         model = Likes
         fields = ('id', 'article', 'user', 'like', 'created_at')
         read_only_fields = ("id", "article", "created_at", "user")
+
+    def create(self, validated_data):
+        return Articles.objects.create(**validated_data)
