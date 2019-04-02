@@ -1,5 +1,5 @@
 from rest_framework.mixins import CreateModelMixin
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -22,6 +22,7 @@ class CreateArticleView(CreateAPIView, ListAPIView):
                 data=article
             )
             serializer.is_valid(raise_exception=True)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(
@@ -35,7 +36,8 @@ class CreateArticleView(CreateAPIView, ListAPIView):
         return self.list(request, *args, **kwargs)
 
 
-class SingleArticleView(RetrieveAPIView):
+class SingleArticleView(RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
     queryset = Articles.objects.all()
     serializer_class = ArticlesSerializer
+
