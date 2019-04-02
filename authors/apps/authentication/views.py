@@ -282,31 +282,7 @@ class SocialAuthView(generics.GenericAPIView):
                 # oauth2 only has access token
                 access_token = serializer.data.get('access_token')
 
-            user = backend.do_auth(access_token)
-
-        except HTTPError as error:
-            return Response({
-                "error": {
-                    "access_token": "invalid token",
-                    "details": str(error)
-                }
-            }, status=status.HTTP_400_BAD_REQUEST)
-
-        except AuthTokenError as error:
-            return Response({
-                "error": "invalid credentials",
-                "details": str(error)
-            }, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            # authenticate the current user
-            # social pipeline associate by email handles already associated exception
-            if isinstance(backend, BaseOAuth2):
-                # oauth2 only has access token
-                access_token = serializer.data.get('access_token')
-                user = backend.do_auth(access_token)
-
-            authenticated_user = backend.do_auth(access_token, user=user)
+            authenticated_user = backend.do_auth(access_token)
 
         except HTTPError as error:
             # catch any error as a result of the authentication
@@ -318,6 +294,12 @@ class SocialAuthView(generics.GenericAPIView):
         except AuthForbidden as error:
             return Response({
                 "error": "invalid token",
+                "details": str(error)
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        except AuthTokenError as error:
+            return Response({
+                "error": "invalid credentials",
                 "details": str(error)
             }, status=status.HTTP_400_BAD_REQUEST)
 
