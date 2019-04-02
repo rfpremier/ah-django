@@ -1,5 +1,5 @@
 from .backends import JWTAuthentication as auth
-from .backends import JWTokens
+
 
 from rest_framework import generics, status, permissions
 from django.core.mail import send_mail
@@ -253,11 +253,6 @@ class SocialAuthView(generics.GenericAPIView):
         provider = serializer.data.get('provider', None)
         strategy = load_strategy(request)  # creates the app instance
 
-        if request.user.is_anonymous:  # make sure the user is not anonymous
-            user = None
-        else:
-            user = request.user
-
         try:
             # load backend with strategy and provider from settings(AUTHENTICATION_BACKENDS)
             backend = load_backend(
@@ -304,6 +299,3 @@ class SocialAuthView(generics.GenericAPIView):
                         "token": authenticated_user.token}
 
             return Response(status=status.HTTP_200_OK, data=response)
-        else:
-            return Response({"errors": "Could not authenticate"},
-                            status=status.HTTP_400_BAD_REQUEST)
