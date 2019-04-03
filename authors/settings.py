@@ -246,5 +246,4 @@ SOCIAL_AUTH_ALLOWED_REDIRECT_URIS = '/oauth/complete/twitter/'
 
 SOCIAL_AUTH_CLEAN_USERNAMES = True
 
-
 django_heroku.settings(locals())
