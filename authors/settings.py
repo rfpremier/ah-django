@@ -245,5 +245,6 @@ SOCIAL_AUTH_GOOGLE_SCOPE = ['email', 'username', 'password']
 SOCIAL_AUTH_ALLOWED_REDIRECT_URIS = '/oauth/complete/twitter/'
 
 SOCIAL_AUTH_CLEAN_USERNAMES = True
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = False
 
 django_heroku.settings(locals())
