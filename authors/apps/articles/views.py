@@ -15,13 +15,11 @@ class CreateArticleView(CreateAPIView, ListAPIView):
     def post(self, request):
         if request.user.is_authenticated:
             article = request.data.get('article', {})
-            author = {"author": request.user.id}
-            article.update(author)
             serializer = self.serializer_class(
                 data=article
             )
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            serializer.save(author=self.request.user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(
@@ -41,21 +39,23 @@ class SingleArticleView(RetrieveUpdateDestroyAPIView):
     serializer_class = ArticlesSerializer
 
     def put(self, request, id, *args, **kwargs):
-        
+
         try:
             article = Articles.objects.filter(id=id)
-            
+
             if article[0].author.id != request.user.id:
                 data = {'error':
                         'You are not allowed to edit or delete this article'}
 
-                return Response(data, 
-                status=status.HTTP_403_FORBIDDEN)
+                return Response(data,
+                                status=status.HTTP_403_FORBIDDEN)
             serializer = self.serializer_class(
                 instance=article[0], data=request.data, partial=True
             )
             serializer.is_valid()
             serializer.save()
-            return Response({'article': serializer.data}, status=status.HTTP_200_OK)
+            return Response({'article': serializer.data},
+                            status=status.HTTP_200_OK)
         except:
-            return Response({"error": "error"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "error"},
+                            status=status.HTTP_400_BAD_REQUEST)
