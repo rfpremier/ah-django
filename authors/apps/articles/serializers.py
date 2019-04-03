@@ -48,6 +48,7 @@ class RatingSerializer(serializers.ModelSerializer):
             'user_id',
             'rating'
         ]
+        read_only_fields = Articles.get_readonly_fields
 
 class LikesSerializer(serializers.ModelSerializer):
     like = serializers.IntegerField()
