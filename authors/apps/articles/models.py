@@ -9,3 +9,9 @@ class Articles(models.Model):
     image_url = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateField(auto_now_add=True)
+
+    def get_readonly_fields(self, request, obj):
+        if obj:
+            return ["author"]
+        else:
+            return []

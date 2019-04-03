@@ -5,7 +5,6 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Articles
-from ..authentication.models import User
 from .serializers import ArticlesSerializer
 
 
@@ -41,3 +40,22 @@ class SingleArticleView(RetrieveUpdateDestroyAPIView):
     queryset = Articles.objects.all()
     serializer_class = ArticlesSerializer
 
+    def put(self, request, id, *args, **kwargs):
+        
+        try:
+            article = Articles.objects.filter(id=id)
+            
+            if article[0].author.id != request.user.id:
+                data = {'error':
+                        'You are not allowed to edit or delete this article'}
+
+                return Response(data, 
+                status=status.HTTP_403_FORBIDDEN)
+            serializer = self.serializer_class(
+                instance=article[0], data=request.data, partial=True
+            )
+            serializer.is_valid()
+            serializer.save()
+            return Response({'article': serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"error": "error"}, status=status.HTTP_400_BAD_REQUEST)
