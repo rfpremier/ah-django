@@ -217,8 +217,6 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
 }
 
-django_heroku.settings(locals())
-
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 # twitter secret keys
@@ -247,3 +245,6 @@ SOCIAL_AUTH_GOOGLE_SCOPE = ['email', 'username', 'password']
 SOCIAL_AUTH_ALLOWED_REDIRECT_URIS = '/oauth/complete/twitter/'
 
 SOCIAL_AUTH_CLEAN_USERNAMES = True
+
+
+django_heroku.settings(locals())
