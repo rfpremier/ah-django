@@ -237,9 +237,13 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
+SOCIAL_AUTH_USER_MODEL = 'authentication.User'
+
 # google secret keys
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ['GOOGLE_OAUTH2_KEY']
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ['GOOGLE_OAUTH2_SECRET']
 SOCIAL_AUTH_GOOGLE_SCOPE = ['email', 'username', 'password']
 
 SOCIAL_AUTH_ALLOWED_REDIRECT_URIS = '/oauth/complete/twitter/'
+
+SOCIAL_AUTH_CLEAN_USERNAMES = True
