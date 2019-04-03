@@ -49,6 +49,7 @@ class RatingSerializer(serializers.ModelSerializer):
             'created_at'
 
         ]
+        read_only_fields = Articles.get_readonly_fields
 
 
 class LikesSerializer(serializers.ModelSerializer):

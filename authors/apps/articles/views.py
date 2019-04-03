@@ -47,7 +47,7 @@ class CreateArticleView(CreateAPIView, ListAPIView):
 
 
 class SingleArticleView(RetrieveUpdateDestroyAPIView):
-    lookup_field = 'id'
+    lookup_field = 'slug'
     queryset = Articles.objects.all()
     serializer_class = ArticlesSerializer
 
