@@ -1,7 +1,5 @@
-from rest_framework.mixins import CreateModelMixin
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
-from django.shortcuts import get_object_or_404
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.generics import (CreateAPIView,
+                                     ListAPIView, RetrieveUpdateDestroyAPIView)
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Articles
@@ -20,7 +18,7 @@ class CreateArticleView(CreateAPIView, ListAPIView):
             )
             serializer.is_valid(raise_exception=True)
             serializer.save(author=self.request.user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(
                 {
@@ -47,8 +45,7 @@ class SingleArticleView(RetrieveUpdateDestroyAPIView):
                 data = {'error':
                         'You are not allowed to edit or delete this article'}
 
-                return Response(data,
-                                status=status.HTTP_403_FORBIDDEN)
+                return Response(data, status=status.HTTP_403_FORBIDDEN)
             serializer = self.serializer_class(
                 instance=article[0], data=request.data, partial=True
             )
@@ -56,6 +53,6 @@ class SingleArticleView(RetrieveUpdateDestroyAPIView):
             serializer.save()
             return Response({'article': serializer.data},
                             status=status.HTTP_200_OK)
-        except:
-            return Response({"error": "error"},
-                            status=status.HTTP_400_BAD_REQUEST)
+        except Articles.DoesNotExist:
+            return Response({"error": "Article not found"},
+                            status=status.HTTP_404_NOT_FOUND)

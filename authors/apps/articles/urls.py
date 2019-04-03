@@ -6,6 +6,11 @@ from .views import (
 )
 
 urlpatterns = [
-    url(r"^articles/$", CreateArticleView.as_view(), name="articles"),
-    path('articles/<int:id>/', SingleArticleView.as_view(), name="single-article")
+    url(r"^articles/?$",
+        CreateArticleView.as_view(),
+        name="articles"),
+
+    path('articles/<int:id>/',
+         SingleArticleView.as_view(),
+         name="single-article")
 ]
