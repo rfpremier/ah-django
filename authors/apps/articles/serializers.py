@@ -48,6 +48,7 @@ class RatingSerializer(serializers.ModelSerializer):
             'user_id',
             'rating'
         ]
+        read_only_fields = Articles.get_readonly_fields
 
     def create(self, validated_data):
         return Articles.objects.create(**validated_data)
