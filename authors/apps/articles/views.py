@@ -22,11 +22,8 @@ class CreateArticleView(CreateAPIView, ListAPIView):
             )
             serializer.is_valid(raise_exception=True)
             serializer.save(author=self.request.user)
-<<<<<<< HEAD
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             serializer.save()
-=======
->>>>>>> * 164857218-feature(article): Crud Articles
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(

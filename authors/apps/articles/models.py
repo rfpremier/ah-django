@@ -14,7 +14,6 @@ class Articles(models.Model):
     body = models.TextField()
     image_url = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-<<<<<<< HEAD
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -58,6 +57,3 @@ class Rating(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField(validators=[MaxValueValidator(5),
                                              MinValueValidator(0)])
-=======
-    created_at = models.DateField(auto_now_add=True)
->>>>>>> * 164857218-feature(article): Crud Articles
