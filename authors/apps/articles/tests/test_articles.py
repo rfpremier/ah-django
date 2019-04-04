@@ -8,7 +8,7 @@ class CURDArticlesTestCase(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.postlist_article_url = '/api/articles/'
-        self.get_article_url = '/api/articles/{article_id}/'
+        self.get_article_url = '/api/articles/{article_slug}/'
         self.user_signup = {
             "user": {
                 "email": "testuser@gmail.com",
@@ -69,13 +69,34 @@ class CURDArticlesTestCase(APITestCase):
     def test_get_article(self):
         article = self.create_article(self.article)
         data = json.loads(article.content)
-        article_id = data['id']
+        article_slug = data['slug']
         get_articles = self.client.get(
-            self.get_article_url.format(article_id=article_id)
+            self.get_article_url.format(article_slug=article_slug)
         )
 
-        self.assertAlmostEqual(get_articles.status_code,
-                               status.HTTP_200_OK)
+        self.assertEqual(get_articles.status_code,
+                         status.HTTP_200_OK)
 
     def test_put_article(self):
-        pass
+        article = self.create_article(
+            self.article)
+        data = json.loads(article.content)
+        article_slug = data['slug']
+        edit_article = self.client.put(
+            self.get_article_url.format(article_slug=article_slug),
+            data=self.edit_article, formart='json'
+        )
+
+        self.assertEqual(edit_article.status_code,
+                         status.HTTP_200_OK)
+
+    def test_delete_article(self):
+        article = self.create_article(
+            self.article)
+        data = json.loads(article.content)
+        article_slug = data['slug']
+        delete_article = self.client.delete(
+            self.get_article_url.format(article_slug=article_slug)
+        )
+        self.assertEqual(delete_article.status_code,
+                         status.HTTP_204_NO_CONTENT)
