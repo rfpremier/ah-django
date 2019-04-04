@@ -231,3 +231,29 @@ class CURDArticlesTestCase(APITestCase):
 
     def test_put_article(self):
         pass
+
+    def test_pagination_by_page_size(self):
+        """Test pagination when passing page size as query param """
+
+        self.list_article_url = '/api/articles/?page_size=4'
+        for i in range(10):
+            self.create_article(self.article)
+
+        response = self.client.get(self.list_article_url)
+        data = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(response.status_code,
+                         status.HTTP_200_OK)
+        self.assertEqual(len(data["results"]), 4)
+
+    def test_default_pagination(self):
+        """Test default pagination of articles """
+
+        self.list_article_url = '/api/articles'
+        for i in range(20):
+            self.create_article(self.article)
+
+        response = self.client.get(self.list_article_url)
+        data = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(response.status_code,
+                         status.HTTP_200_OK)
+        self.assertEqual(len(data["results"]), 10)
