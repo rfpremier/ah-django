@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'authors.apps.core',
     'authors.apps.profiles',
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     'oauth2_provider',
     'social_django',
@@ -56,6 +57,9 @@ INSTALLED_APPS = [
 =======
     'authors.apps.articles'
 >>>>>>> * 164857218-feature(article):
+=======
+    'authors.apps.articles'
+>>>>>>> bcdaf522e74b6e27d5a3b13c58780cf37bb366a2
 ]
 
 MIDDLEWARE = [
