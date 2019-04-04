@@ -22,3 +22,11 @@ class Articles(models.Model):
         else:  # create
             self.slug = Slug().generate_unique_slug(Articles, self.title)
         super().save(*args, **kwargs)
+
+
+class Comments(models.Model):
+    article_slug = models.SlugField(max_length=200)
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
+    body = models.TextField()
+    author = models.CharField(max_length=200)
