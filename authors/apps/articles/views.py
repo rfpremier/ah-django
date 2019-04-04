@@ -6,8 +6,6 @@ from .models import Articles
 from .serializers import ArticlesSerializer
 from django.shortcuts import get_object_or_404
 
-from authors.apps.utils.slug_generator import Slug
-
 
 class CreateArticleView(CreateAPIView, ListAPIView):
     queryset = Articles.objects.all()
@@ -16,7 +14,6 @@ class CreateArticleView(CreateAPIView, ListAPIView):
     def post(self, request):
         if request.user.is_authenticated:
             article = request.data.get('article', {})
-            #slug_data = Slug().generate_unique_slug(Articles, article['title'])
             serializer = self.serializer_class(
                 data=article
             )
@@ -47,12 +44,12 @@ class SingleArticleView(RetrieveUpdateDestroyAPIView):
             data = {'error':
                     'You are not allowed to edit this article'}
 
-            return Response(data, status=status.HTTP_403_FORBIDDEN)
+            return Response(data, status=status.HTTP_401_UNAUTHORIZED)
         serializer = self.serializer_class(
             instance=article, data=request.data, partial=True
         )
         serializer.is_valid()
-        serializer.save(author=self.request.user)
+        serializer.save()
         return Response({'article': serializer.data},
                         status=status.HTTP_200_OK)
 
@@ -62,5 +59,5 @@ class SingleArticleView(RetrieveUpdateDestroyAPIView):
             data = {'error':
                     'You are not allowed to delete this article'}
 
-            return Response(data, status=status.HTTP_403_FORBIDDEN)
+            return Response(data, status=status.HTTP_401_UNAUTHORIZED)
         return self.destroy(request, *args, **kwargs)

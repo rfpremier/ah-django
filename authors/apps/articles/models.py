@@ -1,9 +1,10 @@
 from django.db import models
-from django.utils.text import slugify
 from authors.apps.authentication.models import User
 
 
 from authors.apps.utils.slug_generator import Slug
+
+from datetime import datetime
 
 
 class Articles(models.Model):
@@ -13,12 +14,37 @@ class Articles(models.Model):
     image_url = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=200, unique=True)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.old_title = self.title
+        self.old_description = self.description
+        self.old_body = self.body
+        self.old_image = self.image_url
+
+        self.old_fields = [self.old_title,
+                           self.old_description,
+                           self.old_body,
+                           self.old_image]
+
+        self.fields = [
+            self.title,
+            self.description,
+            self.body,
+            self.image_url
+        ]
+
     def save(self, *args, **kwargs):
-        if self.slug:  # edit
-            if slugify(self.title) != self.slug:
-                self.slug = Slug().generate_unique_slug(Articles, self.title)
-        else:  # create
+        """ overrides the save method
+            generates a new slug in none exists
+            updates the time a field was updated
+        """
+        if not self.id:
             self.slug = Slug().generate_unique_slug(Articles, self.title)
+
+        for fields in self.fields:
+            if self.old_fields != self.fields and self.fields:
+                self.updated_at = datetime.now()
         super().save(*args, **kwargs)
