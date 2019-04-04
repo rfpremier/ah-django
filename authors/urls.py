@@ -20,17 +20,10 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('authors.apps.authentication.urls')),
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^oauth/', include('rest_framework_social_oauth2.urls')),
     url(r'^api/', include('authors.apps.articles.urls')),
     # path('api/auth/oauth/', include('rest_framework_social_oauth2.urls'))
     url(r'^api/', include('authors.apps.profiles.urls')),
-=======
-    url(r'^api/', include('authors.apps.articles.urls')),
->>>>>>> * 164857218-feature(article):
-=======
-    url(r'^api/', include('authors.apps.articles.urls')),
->>>>>>> bcdaf522e74b6e27d5a3b13c58780cf37bb366a2
 ]

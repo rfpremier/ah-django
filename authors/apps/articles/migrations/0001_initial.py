@@ -38,9 +38,4 @@ class Migration(migrations.Migration):
                 ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('slug', models.SlugField(max_length=70, unique=True)),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
     ]
