@@ -8,7 +8,7 @@ class CURDArticlesTestCase(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.postlist_article_url = '/api/articles/'
-        self.get_article_url = '/api/articles/{article_id}/'
+        self.get_article_url = '/api/articles/{article_slug}/'
         self.user_signup = {
             "user": {
                 "email": "testuser@gmail.com",
@@ -16,6 +16,15 @@ class CURDArticlesTestCase(APITestCase):
                 "password": "testuserpass123"
             }
         }
+
+        self.user_signup2 = {
+            "user": {
+                "email": "testuser2@gmail.com",
+                "username": "testuser2",
+                "password": "testuser2pass123"
+            }
+        }
+
         self.article = {
             "article": {
                 "title": "This is the article title",
@@ -34,6 +43,12 @@ class CURDArticlesTestCase(APITestCase):
         self.signup = self.client.post(
             "/api/users",
             self.user_signup,
+            format="json"
+        )
+
+        self.signup2 = self.client.post(
+            "/api/users",
+            self.user_signup2,
             format="json"
         )
 
@@ -221,16 +236,6 @@ class CURDArticlesTestCase(APITestCase):
         )
         self.assertEqual(rate_article.status_code,
                          status.HTTP_400_BAD_REQUEST)
-        article_id = data['id']
-        get_articles = self.client.get(
-            self.get_article_url.format(article_id=article_id)
-        )
-
-        self.assertAlmostEqual(get_articles.status_code,
-                               status.HTTP_200_OK)
-
-    def test_put_article(self):
-        pass
 
     def test_pagination_by_page_size(self):
         """Test pagination when passing page size as query param """
