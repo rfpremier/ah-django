@@ -10,7 +10,7 @@ urlpatterns = [
         CreateArticleView.as_view(),
         name="articles"),
 
-    path('articles/<int:id>/',
-         SingleArticleView.as_view(),
-         name="single-article")
+    url(r'^articles/(?P<slug>[-\w]+)/?$',
+        SingleArticleView.as_view(),
+        name="single-article")
 ]

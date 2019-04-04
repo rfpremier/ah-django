@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Articles
 from .serializers import ArticlesSerializer
+from django.shortcuts import get_object_or_404
+
+from authors.apps.utils.slug_generator import Slug
 
 
 class CreateArticleView(CreateAPIView, ListAPIView):
@@ -13,6 +16,7 @@ class CreateArticleView(CreateAPIView, ListAPIView):
     def post(self, request):
         if request.user.is_authenticated:
             article = request.data.get('article', {})
+            #slug_data = Slug().generate_unique_slug(Articles, article['title'])
             serializer = self.serializer_class(
                 data=article
             )
@@ -32,27 +36,31 @@ class CreateArticleView(CreateAPIView, ListAPIView):
 
 
 class SingleArticleView(RetrieveUpdateDestroyAPIView):
-    lookup_field = 'id'
+    lookup_field = 'slug'
     queryset = Articles.objects.all()
     serializer_class = ArticlesSerializer
 
-    def put(self, request, id, *args, **kwargs):
+    def put(self, request, slug, *args, **kwargs):
 
-        try:
-            article = Articles.objects.filter(id=id)
+        article = get_object_or_404(Articles, slug=slug)
+        if article.author.id != request.user.id:
+            data = {'error':
+                    'You are not allowed to edit this article'}
 
-            if article[0].author.id != request.user.id:
-                data = {'error':
-                        'You are not allowed to edit or delete this article'}
+            return Response(data, status=status.HTTP_403_FORBIDDEN)
+        serializer = self.serializer_class(
+            instance=article, data=request.data, partial=True
+        )
+        serializer.is_valid()
+        serializer.save(author=self.request.user)
+        return Response({'article': serializer.data},
+                        status=status.HTTP_200_OK)
 
-                return Response(data, status=status.HTTP_403_FORBIDDEN)
-            serializer = self.serializer_class(
-                instance=article[0], data=request.data, partial=True
-            )
-            serializer.is_valid()
-            serializer.save()
-            return Response({'article': serializer.data},
-                            status=status.HTTP_200_OK)
-        except Articles.DoesNotExist:
-            return Response({"error": "Article not found"},
-                            status=status.HTTP_404_NOT_FOUND)
+    def delete(self, request, slug, *args, **kwargs):
+        article = get_object_or_404(Articles, slug=slug)
+        if article.author.id != request.user.id:
+            data = {'error':
+                    'You are not allowed to delete this article'}
+
+            return Response(data, status=status.HTTP_403_FORBIDDEN)
+        return self.destroy(request, *args, **kwargs)

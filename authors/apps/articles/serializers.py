@@ -13,9 +13,11 @@ class ArticlesSerializer(serializers.ModelSerializer):
             'body',
             'image_url',
             'author',
-            'created_at'
+            'created_at',
+            'slug'
         ]
-        read_only_fields = ["id", "author", "created_at"]
+        read_only_fields = ["id", "author", "slug", "created_at"]
 
     def create(self, validated_data):
         return Articles.objects.create(**validated_data)
+
