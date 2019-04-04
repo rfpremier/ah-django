@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'authors.apps.authentication',
     'authors.apps.core',
     'authors.apps.profiles',
+
     'oauth2_provider',
     'social_django',
     'rest_framework_social_oauth2',
