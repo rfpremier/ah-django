@@ -16,6 +16,15 @@ class CURDArticlesTestCase(APITestCase):
                 "password": "testuserpass123"
             }
         }
+
+        self.user_signup2 = {
+            "user": {
+                "email": "testuser2@gmail.com",
+                "username": "testuser2",
+                "password": "testuser2pass123"
+            }
+        }
+
         self.article = {
             "article": {
                 "title": "This is the article title",
@@ -34,6 +43,12 @@ class CURDArticlesTestCase(APITestCase):
         self.signup = self.client.post(
             "/api/users",
             self.user_signup,
+            format="json"
+        )
+
+        self.signup2 = self.client.post(
+            "/api/users",
+            self.user_signup2,
             format="json"
         )
 
@@ -100,3 +115,53 @@ class CURDArticlesTestCase(APITestCase):
         )
         self.assertEqual(delete_article.status_code,
                          status.HTTP_204_NO_CONTENT)
+
+    def test_invalid_user(self):
+        """
+        Test post without login
+        """
+        self.client.credentials()
+        article = self.create_article(self.article)
+        self.assertEqual(article.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_unauthrosed_user_delete(self):
+        """
+        Test unauthorised user
+        deleting an article
+        """
+        article = self.create_article(
+            self.article)
+        self.client.credentials()
+        credentials2 = json.loads(self.signup2.content)[
+            "user"]["token"]
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer ' + credentials2)
+        data = json.loads(article.content)
+        article_slug = data['slug']
+        delete_article = self.client.delete(
+            self.get_article_url.format(article_slug=article_slug)
+        )
+        self.assertEqual(delete_article.status_code,
+                         status.HTTP_401_UNAUTHORIZED)
+
+    def test_unauthrosed_user_patch(self):
+        """
+        Test unauthorised user
+        deleting an article
+        """
+        article = self.create_article(
+            self.article)
+        self.client.credentials()
+        credentials2 = json.loads(self.signup2.content)[
+            "user"]["token"]
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer ' + credentials2)
+        data = json.loads(article.content)
+        article_slug = data['slug']
+        edit_article = self.client.put(
+            self.get_article_url.format(article_slug=article_slug),
+            data=self.edit_article, formart='json'
+        )
+
+        self.assertEqual(edit_article.status_code,
+                         status.HTTP_401_UNAUTHORIZED)

@@ -3,7 +3,9 @@ from django.utils.text import slugify
 
 class Slug():
     def generate_unique_slug(self, klass, field):
-
+        """
+        method generates a new unigue slug
+        """
         origin_slug = slugify(field)
         unique_slug = origin_slug
         numb = 1
