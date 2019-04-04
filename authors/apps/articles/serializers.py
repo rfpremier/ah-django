@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Articles, Rating
+from .models import Articles, Rating, Comments
 from django.db.models import Avg
 
 
@@ -48,7 +48,17 @@ class RatingSerializer(serializers.ModelSerializer):
             'user_id',
             'rating'
         ]
-        read_only_fields = ["id", "author", "created_at"]
 
-    def create(self, validated_data):
-        return Articles.objects.create(**validated_data)
+
+class CommentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comments
+        fields = [
+            'id',
+            'article_slug',
+            'created_at',
+            'updated_at',
+            'body',
+            'author'
+        ]
+        read_only_fields = ["id"]

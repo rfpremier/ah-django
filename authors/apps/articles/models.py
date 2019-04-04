@@ -57,3 +57,11 @@ class Rating(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField(validators=[MaxValueValidator(5),
                                              MinValueValidator(0)])
+
+
+class Comments(models.Model):
+    article_slug = models.SlugField(max_length=200)
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
+    body = models.TextField()
+    author = models.CharField(max_length=200)
