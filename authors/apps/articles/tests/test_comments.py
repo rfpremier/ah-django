@@ -35,6 +35,8 @@ class TestCommentsOperations(APITestCase):
             "comment": {"body": "This is a good read"}
         }
 
+        self.fasle_slug = 'no-slug'
+
         self.signup = self.client.post(
             "/api/users",
             self.user_signup,
@@ -134,3 +136,41 @@ class TestCommentsOperations(APITestCase):
 
         self.assertEqual(get_comments.status_code,
                          status.HTTP_200_OK)
+
+    def test_get_non_eixisting_article(self):
+
+        get_comments = self.client.get(
+            self.post_get_url.format(article_slug=self.fasle_slug))
+
+        self.assertEqual(get_comments.status_code,
+                         status.HTTP_404_NOT_FOUND)
+
+    def test_post_to_non_existing_article(self):
+
+        comments = self.client.post(
+            self.post_get_url.format(article_slug=self.fasle_slug),
+            data=self.create_comment,
+            format='json'
+        )
+
+        self.assertEqual(comments.status_code,
+                         status.HTTP_404_NOT_FOUND)
+
+    def test_delete_non_existing_article(self):
+
+        delete_comment = self.client.delete(
+            self.delete_put_url.format(article_slug=self.fasle_slug,
+                                       comm_id='1')
+        )
+        self.assertEqual(delete_comment.status_code,
+                         status.HTTP_404_NOT_FOUND)
+
+    def test_edit_non_existing_article(self):
+        update_comment = self.client.put(
+            self.delete_put_url.format(article_slug=self.fasle_slug,
+                                       comm_id='1'),
+            data=self.edit_comment, format='json'
+        )
+
+        self.assertEqual(update_comment.status_code,
+                         status.HTTP_404_NOT_FOUND)
