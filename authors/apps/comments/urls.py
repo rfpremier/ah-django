@@ -10,6 +10,6 @@ urlpatterns = [
     path('articles/<article_slug>/comments/<int:id>',
          UpdateDeleteCommentView.as_view(),
          name="update-delete-comment"),
-   
+
 
 ]

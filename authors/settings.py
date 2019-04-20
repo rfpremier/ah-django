@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'authors.apps.comments',
     'authors.apps.reports',
 
+    'authors.apps.notifications',
+
     'oauth2_provider',
     'social_django',
     'rest_framework_social_oauth2',
@@ -68,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'authors.apps.notifications.middleware.RequestMiddleware'
 ]
 
 ROOT_URLCONF = 'authors.urls'
