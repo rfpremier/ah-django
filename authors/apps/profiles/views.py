@@ -19,7 +19,7 @@ class ViewAllProfiles(generics.ListAPIView):
     """
     serializer_class = ProfileSerializer
     filter_backends = (SearchFilter, OrderingFilter)
-    search_fields = ('bio', 'user__email', 'user__username')
+    search_fields = ('bio', 'user__email', 'user__username', 'image')
     ordering_fields = ('bio', 'user__username')
     queryset = Profile.objects.all()
 
