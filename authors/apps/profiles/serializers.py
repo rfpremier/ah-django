@@ -18,7 +18,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField(read_only=True)
     fullname = serializers.SerializerMethodField(read_only=True)
     following = serializers.SerializerMethodField(read_only=True)
-
+    email_notifications=serializers.SerializerMethodField(read_only=True)
+    in_app_notifications=serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Profile
         fields = ('image',
@@ -28,6 +29,8 @@ class ProfileSerializer(serializers.ModelSerializer):
                   'firstname',
                   'following',
                   'lastname',
+                  'email_notifications',
+                  'in_app_notifications',
                   'fullname')
         read_only_fields = ('updated_at',)
 
@@ -61,6 +64,12 @@ class ProfileSerializer(serializers.ModelSerializer):
             return False
 
         return True
+    
+    def get_email_notifications(self, obj):
+        return obj.user.email_notifications;
+   
+     def get_in_app_notifications(self, obj):
+        return obj.user.in_app_notifications;
 
 
 class FollowSerializer(serializers.ModelSerializer):
@@ -77,7 +86,7 @@ class FollowSerializer(serializers.ModelSerializer):
                   'bio',
                   'username',
                   'firstname',
-                  'lastname','email_notifications','in_app_notifications',
+                  'lastname',
                   'fullname')
 
         read_only_fields = ["user", "following"]
