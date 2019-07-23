@@ -77,7 +77,7 @@ class FollowSerializer(serializers.ModelSerializer):
                   'bio',
                   'username',
                   'firstname',
-                  'lastname',
+                  'lastname','email_notifications','in_app_notifications',
                   'fullname')
 
         read_only_fields = ["user", "following"]
