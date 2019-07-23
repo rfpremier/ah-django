@@ -68,7 +68,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_email_notifications(self, obj):
         return obj.user.email_notifications;
    
-     def get_in_app_notifications(self, obj):
+    def get_in_app_notifications(self, obj):
         return obj.user.in_app_notifications;
 
 
