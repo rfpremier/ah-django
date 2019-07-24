@@ -47,13 +47,21 @@ class CommentsSerializer(serializers.ModelSerializer):
             return text
         
     def get_likesCount(self, obj):
+        request = RequestMiddleware(
+            get_response=None).thread_local.current_request
         likes_queryset = Like.objects.likes().filter(comment=obj.id)
         dislikes_queryset = Like.objects.dislikes().filter(comment=obj.id)
         likesCount = likes_queryset.count()
         dislikesCount = dislikes_queryset.count()
+        try:
+            like = Likes.objects.get(user=request.user, comment=obj.id)
+            userLike = "commentLike" if like.like == 1 else "commentDislike"
+        except ObjectDoesNotExist:
+            userLike = None
         count = {'likes': likesCount,
                  'dislikes': dislikesCount,
-                 'total': likesCount+dislikesCount}
+                 'total': likesCount+dislikesCount,
+                 'userAction': userLike}
         return count
         
 
