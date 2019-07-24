@@ -8,6 +8,7 @@ class CommentsSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
     highlighted_text = serializers.CharField(
         allow_null=True, allow_blank=True, min_length=4, required=False)
+    likesCount = serializers.SerializerMethodField()
 
     class Meta:
         model = Comments
@@ -19,6 +20,7 @@ class CommentsSerializer(serializers.ModelSerializer):
             'user',
             'highlighted_text',
             'article',
+            'likesCount',
 
         ]
         read_only_fields = ["id"]
@@ -43,6 +45,17 @@ class CommentsSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(msg)
         else:
             return text
+        
+    def get_likes_count(self, obj):
+        likes_queryset = Like.objects.likes().filter(comment=obj.id)
+        dislikes_queryset = Like.objects.dislikes().filter(comment=obj.id)
+        likesCount = likes_queryset.count()
+        dislikesCount = dislikes_queryset.count()
+        count = {'likes': likesCount,
+                 'dislikes': dislikesCount,
+                 'total': likesCount+dislikesCount}
+        return count
+        
 
 
 class CommentHistorySerializer(serializers.ModelSerializer):
