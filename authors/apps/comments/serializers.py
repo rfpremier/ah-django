@@ -46,7 +46,7 @@ class CommentsSerializer(serializers.ModelSerializer):
         else:
             return text
         
-    def get_likes_count(self, obj):
+    def get_likesCount(self, obj):
         likes_queryset = Like.objects.likes().filter(comment=obj.id)
         dislikes_queryset = Like.objects.dislikes().filter(comment=obj.id)
         likesCount = likes_queryset.count()
