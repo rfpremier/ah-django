@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Comments, Like
 from .history import CommentHistory as history
 from authors.apps.notifications.middleware import RequestMiddleware
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class CommentsSerializer(serializers.ModelSerializer):
