@@ -56,7 +56,7 @@ class CommentsSerializer(serializers.ModelSerializer):
         likesCount = likes_queryset.count()
         dislikesCount = dislikes_queryset.count()
         try:
-            like = Likes.objects.get(user=request.user, comment=obj.id)
+            like = Like.objects.get(user=request.user, comment=obj.id)
             userLike = "commentLike" if like.like == 1 else "commentDislike"
         except ObjectDoesNotExist:
             userLike = None
