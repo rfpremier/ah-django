@@ -44,7 +44,7 @@ class CommentsSerializer(serializers.ModelSerializer):
             msg_d = ["Highlighted text not part of Article ({})".format(
                 article.title)]
             msg = {'highlighted_text': msg_d}
-            raise serializers.ValidationError(msg)
+            return text
         else:
             return text
         
